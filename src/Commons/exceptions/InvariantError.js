@@ -5,6 +5,6 @@ class InvariantError extends ClientError {
     super(message);
     this.name = 'InvariantError';
   }
-};
+}
 
 module.exports = InvariantError;
