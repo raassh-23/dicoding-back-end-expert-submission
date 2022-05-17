@@ -1,5 +1,5 @@
 const AddUserUseCase =
-  require('../../../../Applications/use_case/AddUserUseCase');
+  require('../../../../Applications/use_case/users/AddUserUseCase');
 
 class UsersHandler {
   constructor(container) {

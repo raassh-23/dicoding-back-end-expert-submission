@@ -19,11 +19,14 @@ const AuthenticationRepository =
 const AuthenticationRepositoryPostgres =
     require('./repository/AuthenticationRepositoryPostgres');
 
-const AddUserUseCase = require('../Applications/use_case/AddUserUseCase');
-const LoginUserUseCase = require('../Applications/use_case/LoginUserUseCase');
-const LogoutUserUseCase = require('../Applications/use_case/LogoutUserUseCase');
-const RefreshAuthenticationUseCase =
-    require('../Applications/use_case/RefreshAuthenticationUseCase');
+const AddUserUseCase = require('../Applications/use_case/users/AddUserUseCase');
+const LoginUserUseCase =
+  require('../Applications/use_case/authentications/LoginUserUseCase');
+const LogoutUserUseCase =
+  require('../Applications/use_case/authentications/LogoutUserUseCase');
+const RefreshAuthenticationUseCase = require(
+    '../Applications/use_case/authentications/RefreshAuthenticationUseCase',
+);
 
 const container = createContainer();
 

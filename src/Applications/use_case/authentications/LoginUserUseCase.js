@@ -1,6 +1,6 @@
-const UserLogin = require('../../Domains/users/entities/UserLogin');
+const UserLogin = require('../../../Domains/users/entities/UserLogin');
 const NewAuthentication =
-    require('../../Domains/authentications/entities/NewAuth');
+    require('../../../Domains/authentications/entities/NewAuth');
 
 class LoginUserUseCase {
   constructor({
