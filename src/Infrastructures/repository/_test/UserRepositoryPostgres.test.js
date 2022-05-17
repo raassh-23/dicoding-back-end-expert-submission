@@ -116,4 +116,26 @@ describe('UserRepositoryPostgres', () => {
       expect(userId).toEqual('user-321');
     });
   });
+
+  describe('verifyUserExistsById', () => {
+    it('should throw InvariantError when id does not exists', async () => {
+      const userRepository = new UserRepositoryPostgres(pool, {});
+
+      console.log(await UsersTableTestHelper.findUserById('test-123'));
+
+      await expect(userRepository.verifyUserExistsById('test-123')).rejects
+          .toThrow(InvariantError);
+    });
+
+    it('should not throw InvariantError when id exists', async () => {
+      await UsersTableTestHelper.addUser({
+        id: 'test-123',
+      });
+
+      const userRepository = new UserRepositoryPostgres(pool, {});
+
+      await expect(userRepository.verifyUserExistsById('test-123')).resolves
+          .not.toThrow(InvariantError);
+    });
+  });
 });
