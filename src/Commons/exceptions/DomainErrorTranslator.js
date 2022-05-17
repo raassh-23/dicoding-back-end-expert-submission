@@ -17,7 +17,8 @@ DomainErrorTranslator._directories = {
       'can not create user because username exceed 50 characters',
   ),
   'REGISTER_USER.USERNAME_CONTAIN_RESTRICTED_CHARACTER': new InvariantError(
-      'can not create user because username have restricted characters',
+      'can not create user because ' +
+      'username have restricted characters',
   ),
   'USER_LOGIN.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(
       'must contain username and password',

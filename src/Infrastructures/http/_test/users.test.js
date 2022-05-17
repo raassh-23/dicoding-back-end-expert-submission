@@ -153,7 +153,7 @@ describe('/users endpoint', () => {
       expect(response.statusCode).toEqual(400);
       expect(responseJson.status).toEqual('fail');
       expect(responseJson.message)
-          .toEqual('username is unavailable');
+          .toEqual('username tidak tersedia');
     });
   });
 });

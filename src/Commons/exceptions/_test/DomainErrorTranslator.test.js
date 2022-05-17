@@ -23,7 +23,8 @@ describe('DomainErrorTranslator', () => {
             'REGISTER_USER.USERNAME_CONTAIN_RESTRICTED_CHARACTER',
         )))
         .toStrictEqual(new InvariantError(
-            'can not create user because username have restricted characters',
+            'can not create user because ' +
+            'username have restricted characters',
         ));
   });
 
