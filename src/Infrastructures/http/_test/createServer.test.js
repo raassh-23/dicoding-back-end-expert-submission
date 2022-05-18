@@ -35,7 +35,7 @@ describe('HTTP Server', () => {
     expect(response.statusCode).toEqual(404);
   });
 
-  it('should response 401 when request to protected endpoint' +
+  it('should response 401 when request to restricted endpoint' +
     'not contain authentications', async () => {
     const server = await createServer({});
 

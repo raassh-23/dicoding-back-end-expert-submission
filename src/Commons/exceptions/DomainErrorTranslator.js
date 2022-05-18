@@ -44,6 +44,13 @@ DomainErrorTranslator._directories = {
   'NEW_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
       'can not create thread because data specification is not met',
   ),
+
+  'NEW_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(
+      'can not create comment because needed property is missing',
+  ),
+  'NEW_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
+      'can not create comment because data specification is not met',
+  ),
 };
 
 module.exports = DomainErrorTranslator;

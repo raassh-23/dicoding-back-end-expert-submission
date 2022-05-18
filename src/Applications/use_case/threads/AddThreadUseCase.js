@@ -11,7 +11,7 @@ class AddThreadUseCase {
 
     payload.owner = userId;
 
-    const newThread = new NewThread({...payload, owner: userId});
+    const newThread = new NewThread({...payload});
     return this._threadRepository.addThread(newThread);
   }
 }

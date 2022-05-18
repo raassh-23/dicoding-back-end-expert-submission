@@ -22,6 +22,11 @@ exports.up = (pgm) => {
       onDelete: 'CASCADE',
       notNull: true,
     },
+    date: {
+      type: 'VARCHAR',
+      notNull: true,
+      default: pgm.func('CURRENT_TIMESTAMP'),
+    },
   });
 };
 

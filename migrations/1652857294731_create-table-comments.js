@@ -12,16 +12,22 @@ exports.up = (pgm) => {
       type: 'TEXT',
       notNull: true,
     },
+    thread_id: {
+      type: 'VARCHAR(50)',
+      references: 'threads(id)',
+      onDelete: 'CASCADE',
+      notNull: true,
+    },
     owner: {
       type: 'VARCHAR(50)',
       references: 'users(id)',
       onDelete: 'CASCADE',
       notNull: true,
     },
-    reply_to: {
-      type: 'VARCHAR(50)',
-      references: 'comments(id)',
-      onDelete: 'CASCADE',
+    date: {
+      type: 'VARCHAR',
+      notNull: true,
+      default: pgm.func('CURRENT_TIMESTAMP'),
     },
   });
 };
