@@ -5,6 +5,7 @@ const CommentRepository =
     require('../../Domains/comments/CommentRepository');
 const AuthorizationError =
     require('../../Commons/exceptions/AuthorizationError');
+const Comment = require('../../Domains/comments/entities/Comment');
 
 class CommentRepositoryPostgres extends CommentRepository {
   constructor(pool, idGenerator) {
@@ -28,13 +29,15 @@ class CommentRepositoryPostgres extends CommentRepository {
 
   async getCommentsByThreadId(threadId) {
     const query = {
-      text: `SELECT * FROM comments WHERE thread_id = $1 ORDER BY date DESC`,
+      text: `SELECT comments.*, users.username
+            FROM comments JOIN users ON comments.owner = users.id
+            WHERE comments.thread_id = $1 ORDER BY comments.date ASC`,
       values: [threadId],
     };
 
     const {rows} = await this._pool.query(query);
 
-    return rows.map((row) => new AddedComment({...row}));
+    return rows.map((row) => new Comment({...row}));
   }
 
   async deleteCommentById(id) {

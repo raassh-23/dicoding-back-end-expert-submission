@@ -9,6 +9,7 @@ const AddedThread =
     require('../../../Domains/threads/entities/AddedThread');
 const pool = require('../../database/postgres/pool');
 const ThreadRepositoryPostgres = require('../ThreadRepositoryPostgres');
+const Thread = require('../../../Domains/threads/entities/Thread');
 
 describe('ThreadRepositoryPostgres', () => {
   afterEach(async () => {
@@ -64,30 +65,28 @@ describe('ThreadRepositoryPostgres', () => {
 
   describe('getThreadById', () => {
     it('should throw NotFoundError when thread not found', () => {
-      // Arrange
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
 
-      // Action & Assert
       return expect(threadRepositoryPostgres.getThreadById('threads-123'))
           .rejects.toThrowError(NotFoundError);
     });
 
     it('should return thread when thread is found', async () => {
-      // Arrange
-      await UsersTableTestHelper.addUser({id: 'users-123'});
+      await UsersTableTestHelper.addUser({id: 'users-123', username: 'user'});
       await ThreadsTableTestHelper.addThread({
         id: 'threads-123',
         owner: 'users-123',
       });
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
 
-      const expectedThread = new AddedThread({
+      const expectedThread = new Thread({
         id: 'threads-123',
         title: 'test title',
-        owner: 'users-123',
+        body: 'test body',
+        username: 'user',
+        date: '2022-05-18T15:26:50.713Z',
       });
 
-      // Action & Assert
       const thread = await threadRepositoryPostgres
           .getThreadById('threads-123');
       expect(thread).toStrictEqual(expectedThread);

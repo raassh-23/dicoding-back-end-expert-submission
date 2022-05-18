@@ -13,6 +13,7 @@ const AddedComment =
     require('../../../Domains/comments/entities/AddedComment');
 const pool = require('../../database/postgres/pool');
 const CommentRepositoryPostgres = require('../CommentRepositoryPostgres');
+const Comment = require('../../../Domains/comments/entities/Comment');
 
 describe('CommentRepositoryPostgres', () => {
   afterEach(async () => {
@@ -87,7 +88,7 @@ describe('CommentRepositoryPostgres', () => {
     });
 
     it('should return comments if there are comments', async () => {
-      await UsersTableTestHelper.addUser({id: 'users-123'});
+      await UsersTableTestHelper.addUser({id: 'users-123', username: 'user'});
       await ThreadsTableTestHelper.addThread({
         id: 'threads-123',
         owner: 'users-123',
@@ -97,26 +98,31 @@ describe('CommentRepositoryPostgres', () => {
         content: 'test content',
         threadId: 'threads-123',
         owner: 'users-123',
+        date: '2022-05-18T15:26:50.713Z',
       });
       await CommentsTableHelper.addComment({
         id: 'comments-2',
         content: 'test content',
         threadId: 'threads-123',
         owner: 'users-123',
+        date: '2022-05-18T15:27:50.713Z',
       });
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
 
-      // sorted by cration time desc
-      const expectedFirstComment = new AddedComment({
-        id: 'comments-2',
-        content: 'test content',
-        owner: 'users-123',
-      });
-
-      const expectedSecondComment = new AddedComment({
+      const expectedFirstComment = new Comment({
         id: 'comments-1',
         content: 'test content',
-        owner: 'users-123',
+        username: 'user',
+        date: '2022-05-18T15:26:50.713Z',
+        deleted: false,
+      });
+
+      const expectedSecondComment = new Comment({
+        id: 'comments-2',
+        content: 'test content',
+        username: 'user',
+        date: '2022-05-18T15:27:50.713Z',
+        deleted: false,
       });
 
       const comments = await commentRepositoryPostgres
