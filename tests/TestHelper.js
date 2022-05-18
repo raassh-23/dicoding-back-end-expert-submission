@@ -1,11 +1,11 @@
 /* istanbul ignore file */
-const registerAndLogin = async (server) => {
+const registerAndLogin = async (server, username = 'testUser') => {
   // register user
   await server.inject({
     method: 'POST',
     url: '/users',
     payload: {
-      username: 'testuser',
+      username,
       password: 'passpass',
       fullname: 'Test User',
     },
@@ -16,7 +16,7 @@ const registerAndLogin = async (server) => {
     method: 'POST',
     url: '/authentications',
     payload: {
-      username: 'testuser',
+      username,
       password: 'passpass',
     },
   });
@@ -44,7 +44,25 @@ const addThreadWithToken = async (server, accessToken) => {
   return id;
 };
 
+const addCommentWithToken = async (server, threadId, accessToken) => {
+  const response = await server.inject({
+    method: 'POST',
+    url: `/threads/${threadId}/comments`,
+    payload: {
+      content: 'test content',
+    },
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+    },
+  });
+
+  const {data: {addedComment: {id}}} = JSON.parse(response.payload);
+
+  return id;
+};
+
 module.exports = {
   registerAndLogin,
   addThreadWithToken,
+  addCommentWithToken,
 };

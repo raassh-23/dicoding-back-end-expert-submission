@@ -5,6 +5,8 @@ const UsersTableTestHelper =
 const CommentsTableHelper =
     require('../../../../tests/CommentsTableTestHelper');
 const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
+const AuthorizationError =
+    require('../../../Commons/exceptions/AuthorizationError');
 const NewComment =
     require('../../../Domains/comments/entities/NewComment');
 const AddedComment =
@@ -152,7 +154,75 @@ describe('CommentRepositoryPostgres', () => {
 
       const comments = await CommentsTableHelper
           .findCommentById('comments-123');
-      expect(comments).toHaveLength(0);
+      expect(comments[0].deleted).toEqual(true);
+    });
+  });
+
+  describe('verifyCommentOwner', () => {
+    it('should throw NotFountError if comment not found', async () => {
+      const commentRepository = new CommentRepositoryPostgres(pool, {});
+
+      await expect(commentRepository
+          .verifyComment('comments-123', 'users-123'))
+          .rejects.toThrow(NotFoundError);
+    });
+
+    it('should throw AuthorizationError if not the owner', async () => {
+      await UsersTableTestHelper.addUser({id: 'users-123'});
+      await ThreadsTableTestHelper.addThread({
+        id: 'threads-123',
+        owner: 'users-123',
+      });
+      await CommentsTableHelper.addComment({
+        id: 'comments-123',
+        threadId: 'threads-123',
+        owner: 'users-123',
+      });
+
+      const commentRepository = new CommentRepositoryPostgres(pool, {});
+
+      await expect(commentRepository
+          .verifyComment('comments-123', 'users-999', 'threads-123'))
+          .rejects.toThrow(AuthorizationError);
+    });
+
+    it('should throw NotFoundError if not the thread', async () => {
+      await UsersTableTestHelper.addUser({id: 'users-123'});
+      await ThreadsTableTestHelper.addThread({
+        id: 'threads-123',
+        owner: 'users-123',
+      });
+      await CommentsTableHelper.addComment({
+        id: 'comments-123',
+        threadId: 'threads-123',
+        owner: 'users-123',
+      });
+
+      const commentRepository = new CommentRepositoryPostgres(pool, {});
+
+      await expect(commentRepository
+          .verifyComment('comments-123', 'users-123', 'threads-999'))
+          .rejects.toThrow(NotFoundError);
+    });
+
+    it('should not throw any error ' +
+        'if is the correct owner and thread', async () => {
+      await UsersTableTestHelper.addUser({id: 'users-123'});
+      await ThreadsTableTestHelper.addThread({
+        id: 'threads-123',
+        owner: 'users-123',
+      });
+      await CommentsTableHelper.addComment({
+        id: 'comments-123',
+        threadId: 'threads-123',
+        owner: 'users-123',
+      });
+
+      const commentRepository = new CommentRepositoryPostgres(pool, {});
+
+      await expect(commentRepository
+          .verifyComment('comments-123', 'users-123', 'threads-123'))
+          .resolves.not.toThrow();
     });
   });
 });

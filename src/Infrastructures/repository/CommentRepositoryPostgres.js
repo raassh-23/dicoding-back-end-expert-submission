@@ -3,6 +3,8 @@ const AddedComment =
     require('../../Domains/comments/entities/AddedComment');
 const CommentRepository =
     require('../../Domains/comments/CommentRepository');
+const AuthorizationError =
+    require('../../Commons/exceptions/AuthorizationError');
 
 class CommentRepositoryPostgres extends CommentRepository {
   constructor(pool, idGenerator) {
@@ -37,14 +39,38 @@ class CommentRepositoryPostgres extends CommentRepository {
 
   async deleteCommentById(id) {
     const query = {
-      text: `DELETE FROM comments WHERE id = $1`,
+      text: `UPDATE comments SET deleted = true WHERE id = $1
+              RETURNING id`,
       values: [id],
     };
 
     const {rowCount} = await this._pool.query(query);
 
     if (rowCount === 0) {
-      throw new NotFoundError(`Comment not found`);
+      throw new NotFoundError(`comment not found`);
+    }
+  }
+
+  async verifyComment(id, userId, threadId) {
+    const query = {
+      text: `SELECT id, owner, thread_id FROM comments WHERE id = $1`,
+      values: [id],
+    };
+
+    const {rows} = await this._pool.query(query);
+
+    if (rows.length === 0) {
+      throw new NotFoundError(`comment not found`);
+    }
+
+    const {owner, thread_id: otherThreadId} = rows[0];
+
+    if (threadId !== otherThreadId) {
+      throw new NotFoundError(`thread not found`);
+    }
+
+    if (owner !== userId) {
+      throw new AuthorizationError('not comment\'s owner');
     }
   }
 }

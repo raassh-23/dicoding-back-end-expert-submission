@@ -9,7 +9,7 @@ const UserRepository =
 const AddCommentUseCase = require('../AddCommentUseCase');
 const NewComment = require('../../../../Domains/comments/entities/NewComment');
 
-describe('AddThreadUseCase', () => {
+describe('AddCommentUseCase', () => {
   it('should orchestrating the add comment action correctly', async () => {
     const newCommentPayload = {
       content: 'test content',
