@@ -15,7 +15,7 @@ describe('AddUserUseCase', () => {
     };
 
     const expectedRegisteredUser = new RegisteredUser({
-      id: 'user-123',
+      id: 'users-123',
       username: useCasePayload.username,
       fullname: useCasePayload.fullname,
     });
@@ -29,7 +29,7 @@ describe('AddUserUseCase', () => {
         .mockImplementation(() => Promise.resolve('encrypted_password'));
     mockUserRepo.addUser = jest.fn()
         .mockImplementation(() => Promise.resolve(new RegisteredUser({
-          id: 'user-123',
+          id: 'users-123',
           username: useCasePayload.username,
           fullname: useCasePayload.fullname,
         })));

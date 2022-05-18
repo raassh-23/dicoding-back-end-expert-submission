@@ -44,7 +44,7 @@ describe('UserRepositoryPostgres', () => {
 
       await userRepository.addUser(registerUser);
 
-      const user = await UsersTableTestHelper.findUserById('user-123');
+      const user = await UsersTableTestHelper.findUserById('users-123');
       expect(user).toHaveLength(1);
     });
 
@@ -60,7 +60,7 @@ describe('UserRepositoryPostgres', () => {
       const registeredUser = await userRepository.addUser(registerUser);
 
       expect(registeredUser).toStrictEqual(new RegisteredUser({
-        id: 'user-123',
+        id: 'users-123',
         username: 'dicoding',
         fullname: 'Dicoding Indonesia',
       }));
@@ -106,22 +106,20 @@ describe('UserRepositoryPostgres', () => {
     it('should return user id correctly', async () => {
       // Arrange
       await UsersTableTestHelper
-          .addUser({id: 'user-321', username: 'dicoding'});
+          .addUser({id: 'users-321', username: 'dicoding'});
       const userRepositoryPostgres = new UserRepositoryPostgres(pool, {});
 
       // Action
       const userId = await userRepositoryPostgres.getIdByUsername('dicoding');
 
       // Assert
-      expect(userId).toEqual('user-321');
+      expect(userId).toEqual('users-321');
     });
   });
 
   describe('verifyUserExistsById', () => {
     it('should throw InvariantError when id does not exists', async () => {
       const userRepository = new UserRepositoryPostgres(pool, {});
-
-      console.log(await UsersTableTestHelper.findUserById('test-123'));
 
       await expect(userRepository.verifyUserExistsById('test-123')).rejects
           .toThrow(InvariantError);

@@ -18,22 +18,32 @@ DomainErrorTranslator._directories = {
   ),
   'REGISTER_USER.USERNAME_CONTAIN_RESTRICTED_CHARACTER': new InvariantError(
       'can not create user because ' +
-      'username have restricted characters',
+    'username have restricted characters',
   ),
+
   'USER_LOGIN.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(
       'must contain username and password',
   ),
   'USER_LOGIN.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
       'username and password must be string',
   ),
+
   'REFRESH_AUTHENTICATION_USE_CASE.NOT_CONTAIN_REFRESH_TOKEN':
-  new InvariantError('must contain refresh token'),
+    new InvariantError('must contain refresh token'),
   'REFRESH_AUTHENTICATION_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION':
-  new InvariantError('refresh token must be string'),
+    new InvariantError('refresh token must be string'),
+
   'DELETE_AUTHENTICATION_USE_CASE.NOT_CONTAIN_REFRESH_TOKEN':
-  new InvariantError('must contain refresh token'),
+    new InvariantError('must contain refresh token'),
   'DELETE_AUTHENTICATION_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION':
-  new InvariantError('refresh token must be string'),
+    new InvariantError('refresh token must be string'),
+
+  'NEW_THREAD.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(
+      'can not create thread because needed property is missing',
+  ),
+  'NEW_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
+      'can not create thread because data specification is not met',
+  ),
 };
 
 module.exports = DomainErrorTranslator;

@@ -27,7 +27,7 @@ describe('A AddedThread entities', () => {
     const payload = {
       id: 'thread-123',
       title: 'test',
-      owner: 'user-123',
+      owner: 'users-123',
     };
 
     const {id, title, owner} = new AddedThread(payload);

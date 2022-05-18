@@ -3,7 +3,7 @@ const pool = require('../src/Infrastructures/database/postgres/pool');
 
 const UsersTableHelper = {
   async addUser({
-    id = 'user-123',
+    id = 'users-123',
     username = 'dicoding',
     password = 'secret',
     fullname = 'Dicoding Indonesia',
@@ -28,7 +28,7 @@ const UsersTableHelper = {
   },
 
   async cleanTable() {
-    await pool.query('TRUNCATE TABLE users');
+    await pool.query('TRUNCATE TABLE users CASCADE');
   },
 };
 

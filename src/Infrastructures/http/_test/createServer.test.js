@@ -34,4 +34,22 @@ describe('HTTP Server', () => {
 
     expect(response.statusCode).toEqual(404);
   });
+
+  it('should response 401 when request to protected endpoint' +
+    'not contain authentications', async () => {
+    const server = await createServer({});
+
+    const requestPayload = {
+      title: 'test title',
+      body: 'test body',
+    };
+
+    const response = await server.inject({
+      method: 'POST',
+      url: '/threads',
+      payload: requestPayload,
+    });
+
+    expect(response.statusCode).toEqual(401);
+  });
 });
