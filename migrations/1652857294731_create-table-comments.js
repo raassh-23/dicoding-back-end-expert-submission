@@ -3,16 +3,12 @@
 exports.shorthands = undefined;
 
 exports.up = (pgm) => {
-  pgm.createTable('threads', {
+  pgm.createTable('comments', {
     id: {
       type: 'VARCHAR(50)',
       primaryKey: true,
     },
-    title: {
-      type: 'TEXT',
-      notNull: true,
-    },
-    body: {
+    content: {
       type: 'TEXT',
       notNull: true,
     },
@@ -22,9 +18,14 @@ exports.up = (pgm) => {
       onDelete: 'CASCADE',
       notNull: true,
     },
+    reply_to: {
+      type: 'VARCHAR(50)',
+      references: 'comments(id)',
+      onDelete: 'CASCADE',
+    },
   });
 };
 
 exports.down = (pgm) => {
-  pgm.dropTable('threads');
+  pgm.dropTable('comments');
 };
