@@ -1,3 +1,5 @@
+const Reply = require('../../replies/entities/Reply');
+
 class Comment {
   constructor(payload) {
     this._verifyPayload(payload);
@@ -7,10 +9,11 @@ class Comment {
         '**komentar telah dihapus**' : payload.content;
     this.username = payload.username;
     this.date = payload.date;
+    this.replies = payload.replies || [];
   }
 
   _verifyPayload(payload) {
-    const {id, content, username, date, deleted} = payload;
+    const {id, content, username, date, deleted, replies} = payload;
 
     if (id == null || content == null || username == null ||
         date == null || deleted == null) {
@@ -21,6 +24,18 @@ class Comment {
         typeof username !== 'string' || typeof date !== 'string' ||
         typeof deleted !== 'boolean') {
       throw new Error('COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
+    }
+
+    if (replies != null) {
+      if (!Array.isArray(replies)) {
+        throw new Error('COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
+      }
+
+      replies.forEach((reply) => {
+        if (!(reply instanceof Reply)) {
+          throw new Error('COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
+        }
+      });
     }
   }
 }

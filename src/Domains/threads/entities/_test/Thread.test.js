@@ -1,3 +1,4 @@
+const Comment = require('../../../comments/entities/Comment');
 const Thread = require('../Thread');
 
 describe('A AddedThread entities', () => {
@@ -15,7 +16,7 @@ describe('A AddedThread entities', () => {
 
   it('should throw error when payload ' +
   'did not meet data type specification', () => {
-    const payload = {
+    const payload1 = {
       id: [],
       title: 123,
       body: true,
@@ -23,7 +24,29 @@ describe('A AddedThread entities', () => {
       date: 321,
     };
 
-    expect(() => new Thread(payload))
+    const payload2 = {
+      id: 'test',
+      title: 'test',
+      body: 'test',
+      username: 'test',
+      date: 'test',
+      comments: {},
+    };
+
+    const payload3 = {
+      id: 'test',
+      title: 'test',
+      body: 'test',
+      username: 'test',
+      date: 'test',
+      comments: ['test'],
+    };
+
+    expect(() => new Thread(payload1))
+        .toThrowError('THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
+    expect(() => new Thread(payload2))
+        .toThrowError('THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
+    expect(() => new Thread(payload3))
         .toThrowError('THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
   });
 
@@ -54,14 +77,20 @@ describe('A AddedThread entities', () => {
       username: 'test username',
       date: 'test date',
       comments: [
-        {
-          id: 'comment-123',
-          content: 'test content',
-        },
-        {
-          id: 'comment-456',
-          content: 'test content',
-        },
+        new Comment({
+          id: 'comments-123',
+          content: 'test title',
+          username: 'test username',
+          date: 'test date',
+          deleted: false,
+        }),
+        new Comment({
+          id: 'comments-456',
+          content: 'test title',
+          username: 'test username',
+          date: 'test date',
+          deleted: true,
+        }),
       ],
     };
 

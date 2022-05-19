@@ -1,3 +1,5 @@
+const Comment = require('../../comments/entities/Comment');
+
 class Thread {
   constructor(payload) {
     this._verifyPayload(payload);
@@ -11,7 +13,7 @@ class Thread {
   }
 
   _verifyPayload(payload) {
-    const {id, title, body, username, date} = payload;
+    const {id, title, body, username, date, comments} = payload;
 
     if (id == null || title == null || body == null ||
         username == null || date == null) {
@@ -22,6 +24,18 @@ class Thread {
         typeof body !== 'string' || typeof username !== 'string' ||
         typeof date !== 'string') {
       throw new Error('THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
+    }
+
+    if (comments != null) {
+      if (!Array.isArray(comments)) {
+        throw new Error('THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
+      }
+
+      comments.forEach((comment) => {
+        if (!(comment instanceof Comment)) {
+          throw new Error('THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
+        }
+      });
     }
   }
 }
