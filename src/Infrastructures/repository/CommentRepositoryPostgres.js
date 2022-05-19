@@ -50,7 +50,7 @@ class CommentRepositoryPostgres extends CommentRepository {
     const {rowCount} = await this._pool.query(query);
 
     if (rowCount === 0) {
-      throw new NotFoundError(`comment not found`);
+      throw new NotFoundError(`comment is not found`);
     }
   }
 
@@ -63,13 +63,13 @@ class CommentRepositoryPostgres extends CommentRepository {
     const {rowCount, rows} = await this._pool.query(query);
 
     if (!rowCount) {
-      throw new NotFoundError(`comment not found`);
+      throw new NotFoundError(`comment is not found`);
     }
 
     const {owner, thread_id: otherThreadId} = rows[0];
 
     if (threadId !== otherThreadId) {
-      throw new NotFoundError(`thread not found`);
+      throw new NotFoundError(`thread is not found`);
     }
 
     if (owner !== userId) {
@@ -86,7 +86,7 @@ class CommentRepositoryPostgres extends CommentRepository {
     const {rowCount} = await this._pool.query(query);
 
     if (!rowCount) {
-      throw new NotFoundError(`comment not found`);
+      throw new NotFoundError(`comment is not found`);
     }
   }
 }

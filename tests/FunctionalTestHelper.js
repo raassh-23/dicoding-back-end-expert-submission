@@ -61,8 +61,26 @@ const addCommentWithToken = async (server, threadId, accessToken) => {
   return id;
 };
 
+const addReplyWithToken = async (server, threadId, commentId, accessToken) => {
+  const response = await server.inject({
+    method: 'POST',
+    url: `/threads/${threadId}/comments/${commentId}/replies`,
+    payload: {
+      content: 'test content',
+    },
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+    },
+  });
+
+  const {data: {addedReply: {id}}} = JSON.parse(response.payload);
+
+  return id;
+};
+
 module.exports = {
   registerAndLogin,
   addThreadWithToken,
   addCommentWithToken,
+  addReplyWithToken,
 };

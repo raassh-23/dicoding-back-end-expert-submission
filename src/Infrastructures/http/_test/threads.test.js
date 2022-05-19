@@ -7,7 +7,7 @@ const createServer = require('../createServer');
 const {
   registerAndLogin,
   addThreadWithToken,
-} = require('../../../../tests/TestHelper');
+} = require('../../../../tests/FunctionalTestHelper');
 
 describe('/threads endpoint', () => {
   afterAll(async () => {

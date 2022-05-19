@@ -51,7 +51,7 @@ class ReplyRepositoryPostgres extends ReplyRepository {
     const {rowCount} = await this._pool.query(query);
 
     if (rowCount === 0) {
-      throw new NotFoundError(`reply not found`);
+      throw new NotFoundError(`reply is not found`);
     }
   }
 
@@ -65,7 +65,7 @@ class ReplyRepositoryPostgres extends ReplyRepository {
     const {rowCount, rows} = await this._pool.query(query);
 
     if (!rowCount) {
-      throw new NotFoundError(`reply not found`);
+      throw new NotFoundError(`reply is not found`);
     }
 
     const {owner,
@@ -74,11 +74,11 @@ class ReplyRepositoryPostgres extends ReplyRepository {
     } = rows[0];
 
     if (threadId !== otherThreadId) {
-      throw new NotFoundError(`thread not found`);
+      throw new NotFoundError(`thread is not found`);
     }
 
     if (commentId !== otherCommentId) {
-      throw new NotFoundError(`comment not found`);
+      throw new NotFoundError(`comment is not found`);
     }
 
     if (owner !== userId) {
