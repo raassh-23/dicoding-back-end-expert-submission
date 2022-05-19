@@ -10,14 +10,16 @@ class Comment {
   }
 
   _verifyPayload(payload) {
-    const {id, content, username, date} = payload;
+    const {id, content, username, date, deleted} = payload;
 
-    if (!id || !content || !username || !date) {
+    if (id == null || content == null || username == null ||
+        date == null || deleted == null) {
       throw new Error('COMMENT.NOT_CONTAIN_NEEDED_PROPERTY');
     }
 
     if (typeof id !== 'string' || typeof content !== 'string' ||
-        typeof username !== 'string' || typeof date !== 'string') {
+        typeof username !== 'string' || typeof date !== 'string' ||
+        typeof deleted !== 'boolean') {
       throw new Error('COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
     }
   }

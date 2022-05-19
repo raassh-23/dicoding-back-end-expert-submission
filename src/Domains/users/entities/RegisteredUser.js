@@ -10,7 +10,7 @@ class RegisteredUser {
   }
 
   _verifyPayload({id, username, fullname}) {
-    if (!id || !username || !fullname) {
+    if (id == null || username == null || fullname == null) {
       throw new Error('REGISTERED_USER.NOT_CONTAIN_NEEDED_PROPERTY');
     }
 

@@ -9,7 +9,7 @@ class NewAuth {
   _verifyPayload(payload) {
     const {accessToken, refreshToken} = payload;
 
-    if (!accessToken || !refreshToken) {
+    if (accessToken == null || refreshToken == null) {
       throw new Error('NEW_AUTH.NOT_CONTAIN_NEEDED_PROPERTY');
     }
 

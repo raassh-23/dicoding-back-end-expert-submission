@@ -10,7 +10,7 @@ class NewComment {
   _verifyPayload(payload) {
     const {id, content, owner} = payload;
 
-    if (!id || !content || !owner) {
+    if (id == null || content == null || owner == null) {
       throw new Error('ADDED_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY');
     }
 

@@ -28,7 +28,7 @@ class CommentsHandler {
     }).code(201);
   }
 
-  async deleteCommentHandler({auth, params}, h) {
+  async deleteCommentHandler({auth, params}) {
     const {credentials: {id: owner}} = auth;
     const {threadId, commentId} = params;
 
@@ -36,9 +36,9 @@ class CommentsHandler {
         .getInstance(DeleteCommentUseCase.name);
     await deleteCommentUseCase.execute(commentId, owner, threadId);
 
-    return h.response({
+    return {
       status: 'success',
-    }).code(200);
+    };
   }
 }
 

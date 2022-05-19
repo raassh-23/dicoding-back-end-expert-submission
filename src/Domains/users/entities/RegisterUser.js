@@ -10,7 +10,7 @@ class RegisterUser {
   }
 
   _verifyPayload({username, password, fullname}) {
-    if (!username || !password || !fullname) {
+    if (username == null || password == null || fullname == null) {
       throw new Error('REGISTER_USER.NOT_CONTAIN_NEEDED_PROPERTY');
     }
 

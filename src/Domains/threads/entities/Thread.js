@@ -13,7 +13,8 @@ class Thread {
   _verifyPayload(payload) {
     const {id, title, body, username, date} = payload;
 
-    if (!id || !title || !body || !username || !date) {
+    if (id == null || title == null || body == null ||
+        username == null || date == null) {
       throw new Error('THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
     }
 

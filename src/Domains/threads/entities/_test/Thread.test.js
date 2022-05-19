@@ -19,7 +19,7 @@ describe('A AddedThread entities', () => {
       id: [],
       title: 123,
       body: true,
-      username: true,
+      username: false,
       date: 321,
     };
 

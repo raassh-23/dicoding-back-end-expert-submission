@@ -10,7 +10,7 @@ class AddedThread {
   _verifyPayload(payload) {
     const {id, title, owner} = payload;
 
-    if (!id || !title || !owner) {
+    if (id == null || title == null || owner == null) {
       throw new Error('ADDED_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
     }
 

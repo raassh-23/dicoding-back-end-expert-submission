@@ -19,6 +19,7 @@ describe('A Comment entities', () => {
       content: 123,
       username: true,
       date: 321,
+      deleted: 'false',
     };
 
     expect(() => new Comment(payload))
@@ -31,6 +32,7 @@ describe('A Comment entities', () => {
       content: 'test title',
       username: 'test username',
       date: 'test date',
+      deleted: false,
     };
 
     const {id, content, username, date} = new Comment(payload);

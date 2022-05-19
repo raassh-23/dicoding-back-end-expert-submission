@@ -60,9 +60,9 @@ class CommentRepositoryPostgres extends CommentRepository {
       values: [id],
     };
 
-    const {rows} = await this._pool.query(query);
+    const {rowCount, rows} = await this._pool.query(query);
 
-    if (rows.length === 0) {
+    if (!rowCount) {
       throw new NotFoundError(`comment not found`);
     }
 

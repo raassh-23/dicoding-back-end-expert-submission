@@ -10,7 +10,7 @@ class NewComment {
   _verifyPayload(payload) {
     const {content, threadId, owner} = payload;
 
-    if (!content || !threadId || !owner) {
+    if (content == null || threadId == null || owner == null) {
       throw new Error('NEW_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY');
     }
 
