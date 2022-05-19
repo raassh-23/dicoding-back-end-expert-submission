@@ -76,6 +76,19 @@ class CommentRepositoryPostgres extends CommentRepository {
       throw new AuthorizationError('not comment\'s owner');
     }
   }
+
+  async verifyCommentExistsById(id) {
+    const query = {
+      text: `SELECT id FROM comments WHERE id = $1`,
+      values: [id],
+    };
+
+    const {rowCount} = await this._pool.query(query);
+
+    if (!rowCount) {
+      throw new NotFoundError(`comment not found`);
+    }
+  }
 }
 
 module.exports = CommentRepositoryPostgres;

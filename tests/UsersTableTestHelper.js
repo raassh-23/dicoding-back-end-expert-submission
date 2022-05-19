@@ -23,8 +23,8 @@ const UsersTableHelper = {
       values: [id],
     };
 
-    const result = await pool.query(query);
-    return result.rows;
+    const {rows} = await pool.query(query);
+    return rows;
   },
 
   async cleanTable() {

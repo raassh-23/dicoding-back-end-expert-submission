@@ -2,7 +2,7 @@ const CommentRepository =
     require('../../../../Domains/comments/CommentRepository');
 const DeleteCommentUseCase = require('../DeleteCommentUseCase');
 
-describe('DeleteCommentUseCasw', () => {
+describe('DeleteCommentUseCase', () => {
   it('should orchestrating the delete comment action correctly', async () => {
     const threadId = 'threads-123';
     const userId = 'users-123';

@@ -46,8 +46,9 @@ describe('CommentRepositoryPostgres', () => {
 
       await commentRepository.addComment(newComment);
 
-      const thread = await CommentsTableHelper.findCommentById('comments-123');
-      expect(thread).toHaveLength(1);
+      const comments = await CommentsTableHelper
+          .findCommentById('comments-123');
+      expect(comments).toHaveLength(1);
     });
 
     it('should return added comment', async () => {
@@ -165,11 +166,11 @@ describe('CommentRepositoryPostgres', () => {
   });
 
   describe('verifyCommentOwner', () => {
-    it('should throw NotFountError if comment not found', async () => {
+    it('should throw NotFoundError if comment not found', async () => {
       const commentRepository = new CommentRepositoryPostgres(pool, {});
 
       await expect(commentRepository
-          .verifyComment('comments-123', 'users-123'))
+          .verifyComment('comments-123', 'users-123', 'threads-123'))
           .rejects.toThrow(NotFoundError);
     });
 
@@ -229,6 +230,33 @@ describe('CommentRepositoryPostgres', () => {
       await expect(commentRepository
           .verifyComment('comments-123', 'users-123', 'threads-123'))
           .resolves.not.toThrow();
+    });
+  });
+
+  describe('verifyCommentExistsById', () => {
+    it('should throw NotFoundError when id does not exists', async () => {
+      const commentRepository = new CommentRepositoryPostgres(pool, {});
+
+      await expect(commentRepository.verifyCommentExistsById('comments-123'))
+          .rejects.toThrow(NotFoundError);
+    });
+
+    it('should not throw NotFoundError when id exists', async () => {
+      await UsersTableTestHelper.addUser({id: 'users-123'});
+      await ThreadsTableTestHelper.addThread({
+        id: 'threads-123',
+        owner: 'users-123',
+      });
+      await CommentsTableHelper.addComment({
+        id: 'comments-123',
+        threadId: 'threads-123',
+        owner: 'users-123',
+      });
+
+      const commentRepository = new CommentRepositoryPostgres(pool, {});
+
+      await expect(commentRepository.verifyCommentExistsById('comments-123'))
+          .resolves.not.toThrow(NotFoundError);
     });
   });
 });
