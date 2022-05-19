@@ -17,7 +17,7 @@ const Reply = require('../../../Domains/replies/entities/Reply');
 const pool = require('../../database/postgres/pool');
 const ReplyRepositoryPostgres = require('../ReplyRepositoryPostgres');
 
-describe('CommentRepositoryPostgres', () => {
+describe('ReplyRepositoryPostgres', () => {
   afterEach(async () => {
     await RepliesTableHelper.cleanTable();
     await CommentsTableHelper.cleanTable();

@@ -102,7 +102,7 @@ describe('/comments endpoint', () => {
       expect(responseJson.message).toEqual('thread is not found');
     });
 
-    it('should response 201 and persisted comments', async () => {
+    it('should response 201 and persisted comment', async () => {
       const server = await createServer(container);
 
       const accessToken = await registerAndLogin(server);

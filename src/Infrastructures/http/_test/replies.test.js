@@ -110,7 +110,7 @@ describe('/replies endpoint', () => {
       expect(responseJson.message).toEqual('thread is not found');
     });
 
-    it('should response 404 when comment not found', async () => {
+    it('should response 404 when no valid comment found', async () => {
       const server = await createServer(container);
 
       const accessToken = await registerAndLogin(server);

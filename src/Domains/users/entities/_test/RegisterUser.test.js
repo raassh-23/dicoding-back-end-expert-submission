@@ -45,7 +45,7 @@ describe('A RegisterUser entities', () => {
         .toThrowError('REGISTER_USER.USERNAME_CONTAIN_RESTRICTED_CHARACTER');
   });
 
-  it('should create RegisterObject correctly', () => {
+  it('should create RegisterUser object correctly', () => {
     const payload = {
       username: 'dicoding',
       fullname: 'Dicoding Indonesia',

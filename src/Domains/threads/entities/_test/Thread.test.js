@@ -1,7 +1,7 @@
 const Comment = require('../../../comments/entities/Comment');
 const Thread = require('../Thread');
 
-describe('A AddedThread entities', () => {
+describe('A Thread entities', () => {
   it('should throw error when payload did not contain needed property', () => {
     const payload = {
       id: 'thread-123',
