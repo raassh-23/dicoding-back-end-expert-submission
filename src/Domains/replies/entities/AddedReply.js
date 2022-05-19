@@ -1,4 +1,4 @@
-class AddedComment {
+class AddedReply {
   constructor(payload) {
     this._verifyPayload(payload);
 
@@ -11,14 +11,14 @@ class AddedComment {
     const {id, content, owner} = payload;
 
     if (id == null || content == null || owner == null) {
-      throw new Error('ADDED_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY');
+      throw new Error('ADDED_REPLY.NOT_CONTAIN_NEEDED_PROPERTY');
     }
 
     if (typeof id !== 'string' || typeof content !== 'string' ||
         typeof owner !== 'string') {
-      throw new Error('ADDED_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
+      throw new Error('ADDED_REPLY.NOT_MEET_DATA_TYPE_SPECIFICATION');
     }
   }
 }
 
-module.exports = AddedComment;
+module.exports = AddedReply;

@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
 
+exports.shorthands = undefined;
+
 exports.up = (pgm) => {
-  pgm.createTable('comments', {
+  pgm.createTable('replies', {
     id: {
       type: 'VARCHAR(50)',
       primaryKey: true,
@@ -13,6 +15,12 @@ exports.up = (pgm) => {
     thread_id: {
       type: 'VARCHAR(50)',
       references: 'threads(id)',
+      onDelete: 'CASCADE',
+      notNull: true,
+    },
+    comment_id: {
+      type: 'VARCHAR(50)',
+      references: 'comments(id)',
       onDelete: 'CASCADE',
       notNull: true,
     },
@@ -36,5 +44,5 @@ exports.up = (pgm) => {
 };
 
 exports.down = (pgm) => {
-  pgm.dropTable('comments');
+  pgm.dropTable('replies');
 };
