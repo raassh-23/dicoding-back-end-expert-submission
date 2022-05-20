@@ -60,6 +60,14 @@ const createServer = async (container) => {
     },
   ]);
 
+  server.route({
+    method: 'GET',
+    path: '/',
+    handler: () => ({
+      message: 'hello world',
+    }),
+  });
+
   server.ext('onPreResponse', (request, h) => {
     const {response} = request;
 
