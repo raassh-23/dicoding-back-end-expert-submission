@@ -52,4 +52,20 @@ describe('HTTP Server', () => {
 
     expect(response.statusCode).toEqual(401);
   });
+
+  describe('when GET /', () => {
+    it('should response 200 and hello world', async () => {
+      const server = await createServer({});
+
+      const response = await server.inject({
+        method: 'GET',
+        url: '/',
+      });
+
+      const responseJson = JSON.parse(response.payload);
+
+      expect(response.statusCode).toEqual(200);
+      expect(responseJson.message).toEqual('hello world');
+    });
+  });
 });
