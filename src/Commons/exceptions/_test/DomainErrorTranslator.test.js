@@ -6,25 +6,27 @@ describe('DomainErrorTranslator', () => {
     expect(DomainErrorTranslator
         .translate(new Error('REGISTER_USER.NOT_CONTAIN_NEEDED_PROPERTY')))
         .toStrictEqual(new InvariantError(
-            'can not create user because needed property is missing',
+            'tidak dapat membuat user baru karena ' +
+            'properti yang dibutuhkan tidak ada',
         ));
     expect(DomainErrorTranslator
         .translate(new Error('REGISTER_USER.NOT_MEET_DATA_TYPE_SPECIFICATION')))
         .toStrictEqual(new InvariantError(
-            'can not create user because data specification is not met',
+            'tidak dapat membuat user baru karena tipe data tidak sesuai',
         ));
     expect(DomainErrorTranslator
         .translate(new Error('REGISTER_USER.USERNAME_LIMIT_CHAR')))
         .toStrictEqual(new InvariantError(
-            'can not create user because username exceed 50 characters',
+            'tidak dapat membuat user baru karena ' +
+            'karakter username melebihi batas limit',
         ));
     expect(DomainErrorTranslator
         .translate(new Error(
             'REGISTER_USER.USERNAME_CONTAIN_RESTRICTED_CHARACTER',
         )))
         .toStrictEqual(new InvariantError(
-            'can not create user because ' +
-            'username have restricted characters',
+            'tidak dapat membuat user baru karena ' +
+            'username mengandung karakter terlarang',
         ));
   });
 

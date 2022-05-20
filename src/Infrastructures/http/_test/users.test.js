@@ -55,7 +55,8 @@ describe('/users endpoint', () => {
       expect(response.statusCode).toEqual(400);
       expect(responseJson.status).toEqual('fail');
       expect(responseJson.message)
-          .toEqual('can not create user because needed property is missing');
+          .toEqual('tidak dapat membuat user baru karena ' +
+          'properti yang dibutuhkan tidak ada');
     });
 
     it('should response 400 when request payload ' +
@@ -79,7 +80,8 @@ describe('/users endpoint', () => {
       expect(response.statusCode).toEqual(400);
       expect(responseJson.status).toEqual('fail');
       expect(responseJson.message)
-          .toEqual('can not create user because data specification is not met');
+          .toEqual('tidak dapat membuat user baru karena ' +
+          'tipe data tidak sesuai');
     });
 
     it('should response 400 when username ' +
@@ -103,7 +105,8 @@ describe('/users endpoint', () => {
       expect(response.statusCode).toEqual(400);
       expect(responseJson.status).toEqual('fail');
       expect(responseJson.message)
-          .toEqual('can not create user because username exceed 50 characters');
+          .toEqual('tidak dapat membuat user baru karena ' +
+          'karakter username melebihi batas limit');
     });
 
     it('should response 400 when username ' +
@@ -127,8 +130,8 @@ describe('/users endpoint', () => {
       expect(response.statusCode).toEqual(400);
       expect(responseJson.status).toEqual('fail');
       expect(responseJson.message)
-          .toEqual('can not create user because ' +
-              'username have restricted characters');
+          .toEqual('tidak dapat membuat user baru karena ' +
+          'username mengandung karakter terlarang');
     });
 
     it('should response 400 when username unavailable', async () => {
