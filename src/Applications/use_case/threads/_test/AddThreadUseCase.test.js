@@ -26,14 +26,14 @@ describe('AddThreadUseCase', () => {
     const mockThreadRepo = new ThreadRepository();
     const mockUserRepo = new UserRepository();
 
-    mockThreadRepo.addThread = jest.fn()
-        .mockImplementation(() => Promise.resolve(new AddedThread({
+    mockThreadRepo.addThread = jest.fn(() => Promise.resolve(
+        new AddedThread({
           id: 'threads-123',
           title: newThreadPayload.title,
           owner: userId,
-        })));
-    mockUserRepo.verifyUserExistsById = jest.fn()
-        .mockImplementation(() => Promise.resolve());
+        }),
+    ));
+    mockUserRepo.verifyUserExistsById = jest.fn(() => Promise.resolve());
 
     const addThreadUseCase = new AddThreadUseCase({
       userRepository: mockUserRepo,

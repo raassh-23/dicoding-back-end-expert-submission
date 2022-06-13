@@ -28,12 +28,13 @@ class ReplyRepositoryPostgres extends ReplyRepository {
     return new AddedReply({...rows[0]});
   }
 
-  async getRepliesByCommentId(commentId) {
+  async getRepliesByCommentsId(commentsId) {
     const query = {
       text: `SELECT replies.*, users.username
-            FROM replies JOIN users ON replies.owner = users.id
-            WHERE replies.comment_id = $1 ORDER BY replies.date ASC`,
-      values: [commentId],
+            FROM replies INNER JOIN users ON replies.owner = users.id
+            WHERE replies.comment_id = ANY($1::TEXT[]) 
+            ORDER BY replies.date ASC`,
+      values: [commentsId],
     };
 
     const {rows} = await this._pool.query(query);

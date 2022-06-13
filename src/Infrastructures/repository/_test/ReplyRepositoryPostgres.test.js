@@ -92,17 +92,18 @@ describe('ReplyRepositoryPostgres', () => {
     });
   });
 
-  describe('getRepliesByCommentId', () => {
+  describe('getRepliesByCommentsId', () => {
     it('should return empty array if no replies', async () => {
       const replyRepository = new ReplyRepositoryPostgres(pool, {});
 
       const replies = await replyRepository
-          .getRepliesByCommentId('comments-123');
+          .getRepliesByCommentsId(['comments-123']);
 
       expect(replies).toHaveLength(0);
     });
 
-    it('should return replies if there are replies', async () => {
+    it('should return replies with its comment id' +
+    ' if there are replies', async () => {
       await UsersTableTestHelper.addUser({id: 'users-123', username: 'user'});
       await ThreadsTableTestHelper.addThread({
         id: 'threads-123',
@@ -138,6 +139,7 @@ describe('ReplyRepositoryPostgres', () => {
         username: 'user',
         date: '2022-05-18T15:26:50.713Z',
         deleted: false,
+        comment_id: 'comments-123',
       });
 
       const expectedSecondReply = new Reply({
@@ -146,10 +148,11 @@ describe('ReplyRepositoryPostgres', () => {
         username: 'user',
         date: '2022-05-18T15:27:50.713Z',
         deleted: false,
+        comment_id: 'comments-123',
       });
 
       const replies = await replyRepositoryPostgres
-          .getRepliesByCommentId('comments-123');
+          .getRepliesByCommentsId(['comments-123']);
 
       expect(replies).toHaveLength(2);
       expect(replies[0]).toStrictEqual(expectedFirstReply);

@@ -1,5 +1,4 @@
 const Comment = require('../Comment');
-const Reply = require('../../../replies/entities/Reply');
 
 describe('A Comment entities', () => {
   it('should throw error when payload did not contain needed property', () => {
@@ -93,13 +92,12 @@ describe('A Comment entities', () => {
       date: 'test date',
       deleted: false,
       replies: [
-        new Reply({
+        {
           id: 'reply-123',
           content: 'test reply',
           username: 'test username',
           date: 'test date',
-          deleted: false,
-        }),
+        },
       ],
     };
 

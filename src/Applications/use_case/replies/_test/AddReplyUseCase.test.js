@@ -32,18 +32,16 @@ describe('AddReplyUseCase', () => {
     const mockThreadRepo = new ThreadRepository();
     const mockUserRepo = new UserRepository();
 
-    mockReplyRepo.addReply = jest.fn()
-        .mockImplementation(() => Promise.resolve(new AddedReply({
+    mockReplyRepo.addReply = jest.fn(() => Promise.resolve(
+        new AddedReply({
           id: 'replies-123',
           content: newReplyPayload.content,
           owner: userId,
-        })));
-    mockCommentRepo.verifyCommentExistsById = jest.fn()
-        .mockImplementation(() => Promise.resolve());
-    mockUserRepo.verifyUserExistsById = jest.fn()
-        .mockImplementation(() => Promise.resolve());
-    mockThreadRepo.verifyThreadExistsById = jest.fn()
-        .mockImplementation(() => Promise.resolve());
+        }),
+    ));
+    mockCommentRepo.verifyCommentExistsById = jest.fn(() => Promise.resolve());
+    mockUserRepo.verifyUserExistsById = jest.fn(() => Promise.resolve());
+    mockThreadRepo.verifyThreadExistsById = jest.fn(() => Promise.resolve());
 
 
     const addReplyUseCase = new AddReplyUseCase({

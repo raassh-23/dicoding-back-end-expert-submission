@@ -35,14 +35,16 @@ describe('GetThreadUseCase', () => {
               username: 'user2',
               date: 'test date2',
               deleted: false,
-            }),
+              comment_id: 'comments-123',
+            }).toJson(),
             new Reply({
               id: 'replies-456',
               content: 'test reply body',
               username: 'user2',
               date: 'test date2',
               deleted: true,
-            }),
+              comment_id: 'comments-123',
+            }).toJson(),
           ],
         }),
         new Comment({
@@ -58,14 +60,16 @@ describe('GetThreadUseCase', () => {
               username: 'user2',
               date: 'test date2',
               deleted: false,
-            }),
+              comment_id: 'comments-456',
+            }).toJson(),
             new Reply({
               id: 'replies-456',
               content: 'test reply body',
               username: 'user2',
               date: 'test date2',
               deleted: true,
-            }),
+              comment_id: 'comments-456',
+            }).toJson(),
           ],
         }),
       ],
@@ -75,48 +79,65 @@ describe('GetThreadUseCase', () => {
     const mockCommentRepo = new CommentRepository();
     const mockReplyRepo = new ReplyRepository();
 
-    mockThreadRepo.getThreadById = jest.fn()
-        .mockImplementation(() => Promise.resolve(new Thread({
+    mockThreadRepo.getThreadById = jest.fn(() => Promise.resolve(
+        new Thread({
           id: threadId,
           title: 'test title',
           body: 'test body',
           username: 'user',
           date: 'test date',
-        })));
-    mockCommentRepo.getCommentsByThreadId = jest.fn()
-        .mockImplementation(() => Promise.resolve([
-          new Comment({
-            id: 'comments-123',
-            content: 'test comment body',
-            username: 'user1',
-            date: 'test date1',
-            deleted: false,
-          }),
-          new Comment({
-            id: 'comments-456',
-            content: 'test comment body 2',
-            username: 'user2',
-            date: 'test date2',
-            deleted: true,
-          }),
-        ]));
-    mockReplyRepo.getRepliesByCommentId = jest.fn()
-        .mockImplementation(() => Promise.resolve([
-          new Reply({
-            id: 'replies-123',
-            content: 'test reply body',
-            username: 'user2',
-            date: 'test date2',
-            deleted: false,
-          }),
-          new Reply({
-            id: 'replies-456',
-            content: 'test reply body',
-            username: 'user2',
-            date: 'test date2',
-            deleted: true,
-          }),
-        ]));
+        }),
+    ));
+    mockCommentRepo.getCommentsByThreadId = jest.fn(() => Promise.resolve([
+      new Comment({
+        id: 'comments-123',
+        content: 'test comment body',
+        username: 'user1',
+        date: 'test date1',
+        deleted: false,
+      }),
+      new Comment({
+        id: 'comments-456',
+        content: 'test comment body 2',
+        username: 'user2',
+        date: 'test date2',
+        deleted: true,
+      }),
+    ]));
+    mockReplyRepo.getRepliesByCommentsId = jest.fn(() => Promise.resolve([
+      new Reply({
+        id: 'replies-123',
+        content: 'test reply body',
+        username: 'user2',
+        date: 'test date2',
+        deleted: false,
+        comment_id: 'comments-123',
+      }),
+      new Reply({
+        id: 'replies-456',
+        content: 'test reply body',
+        username: 'user2',
+        date: 'test date2',
+        deleted: true,
+        comment_id: 'comments-123',
+      }),
+      new Reply({
+        id: 'replies-123',
+        content: 'test reply body',
+        username: 'user2',
+        date: 'test date2',
+        deleted: false,
+        comment_id: 'comments-456',
+      }),
+      new Reply({
+        id: 'replies-456',
+        content: 'test reply body',
+        username: 'user2',
+        date: 'test date2',
+        deleted: true,
+        comment_id: 'comments-456',
+      }),
+    ]));
 
 
     const getThreadUseCase = new GetThreadUseCase({
@@ -131,8 +152,8 @@ describe('GetThreadUseCase', () => {
     expect(getThread).toStrictEqual(expected);
     expect(mockThreadRepo.getThreadById).toBeCalledWith(threadId);
     expect(mockCommentRepo.getCommentsByThreadId).toBeCalledWith(threadId);
-    expect(mockReplyRepo.getRepliesByCommentId).toBeCalledTimes(2);
-    expect(mockReplyRepo.getRepliesByCommentId).toBeCalledWith('comments-123');
-    expect(mockReplyRepo.getRepliesByCommentId).toBeCalledWith('comments-456');
+    expect(mockReplyRepo.getRepliesByCommentsId).toBeCalledTimes(1);
+    expect(mockReplyRepo.getRepliesByCommentsId)
+        .toBeCalledWith(['comments-123', 'comments-456']);
   });
 });

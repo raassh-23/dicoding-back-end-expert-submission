@@ -1,5 +1,3 @@
-const Reply = require('../../replies/entities/Reply');
-
 class Comment {
   constructor(payload) {
     this._verifyPayload(payload);
@@ -32,7 +30,8 @@ class Comment {
       }
 
       replies.forEach((reply) => {
-        if (!(reply instanceof Reply)) {
+        if (reply.id == null || reply.content == null ||
+            reply.username == null || reply.date == null) {
           throw new Error('COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
         }
       });
