@@ -60,6 +60,20 @@ const createServer = async (container) => {
     },
   ]);
 
+  server.route([
+    {
+      method: 'GET',
+      path: '/',
+      handler: () => ({
+        status: 'success',
+        data: {
+          name: 'Forum API',
+          version: '1.0.0',
+        },
+      }),
+    },
+  ]);
+
   server.ext('onPreResponse', (request, h) => {
     const {response} = request;
 
