@@ -131,3 +131,5 @@ dist
 
 .vscode
 config/database/test.json
+
+expert-back-end-dicoding-key.pem
