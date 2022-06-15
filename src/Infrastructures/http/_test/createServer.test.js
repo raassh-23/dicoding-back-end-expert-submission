@@ -52,4 +52,21 @@ describe('HTTP Server', () => {
 
     expect(response.statusCode).toEqual(401);
   });
+
+  describe('GET /', () => {
+    it('should response 200 and return api name and version', async () => {
+      const server = await createServer({});
+
+      const response = await server.inject({
+        method: 'GET',
+        url: '/',
+      });
+
+      const responseJson = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(200);
+      expect(responseJson.status).toEqual('success');
+      expect(responseJson.data.name).toEqual('Forum API');
+      expect(responseJson.data.version).toEqual('1.0.0');
+    });
+  });
 });
