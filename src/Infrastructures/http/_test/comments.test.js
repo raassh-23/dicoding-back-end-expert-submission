@@ -200,4 +200,102 @@ describe('/comments endpoint', () => {
       expect(responseJson.status).toEqual('success');
     });
   });
+
+  describe('when PUT /threads/{threadId}/comments/{commentId}/likes', () => {
+    it('should response 404 when no valid thread found', async () => {
+      const server = await createServer(container);
+
+      const accessToken = await registerAndLogin(server);
+      const threadId = await addThreadWithToken(server, accessToken);
+      const commentId =
+          await addCommentWithToken(server, threadId, accessToken);
+
+      const response = await server.inject({
+        method: 'PUT',
+        url: `/threads/threads-999/comments/${commentId}/likes`,
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+
+      const responseJson = JSON.parse(response.payload);
+
+      expect(response.statusCode).toEqual(404);
+      expect(responseJson.status).toEqual('fail');
+      expect(responseJson.message).toEqual('thread is not found');
+    });
+
+    it('should response 404 when no valid comment found', async () => {
+      const server = await createServer(container);
+
+      const accessToken = await registerAndLogin(server);
+      const threadId = await addThreadWithToken(server, accessToken);
+
+      const response = await server.inject({
+        method: 'PUT',
+        url: `/threads/${threadId}/comments/comments-999/likes`,
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+
+      const responseJson = JSON.parse(response.payload);
+
+      expect(response.statusCode).toEqual(404);
+      expect(responseJson.status).toEqual('fail');
+      expect(responseJson.message).toEqual('comment is not found');
+    });
+
+    it('should response 200 if have not liked', async () => {
+      const server = await createServer(container);
+
+      const accessToken = await registerAndLogin(server);
+      const threadId = await addThreadWithToken(server, accessToken);
+      const commentId =
+          await addCommentWithToken(server, threadId, accessToken);
+
+      const response = await server.inject({
+        method: 'PUT',
+        url: `/threads/${threadId}/comments/${commentId}/likes`,
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+
+      const responseJson = JSON.parse(response.payload);
+
+      expect(response.statusCode).toEqual(200);
+      expect(responseJson.status).toEqual('success');
+    });
+
+    it('should response 200 if have liked', async () => {
+      const server = await createServer(container);
+
+      const accessToken = await registerAndLogin(server);
+      const threadId = await addThreadWithToken(server, accessToken);
+      const commentId =
+          await addCommentWithToken(server, threadId, accessToken);
+
+      await server.inject({
+        method: 'PUT',
+        url: `/threads/${threadId}/comments/${commentId}/likes`,
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+
+      const response = await server.inject({
+        method: 'PUT',
+        url: `/threads/${threadId}/comments/${commentId}/likes`,
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+
+      const responseJson = JSON.parse(response.payload);
+
+      expect(response.statusCode).toEqual(200);
+      expect(responseJson.status).toEqual('success');
+    });
+  });
 });
