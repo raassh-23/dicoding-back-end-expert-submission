@@ -20,7 +20,7 @@ describe('LikeCommentUseCase', () => {
     mockThreadRepo.verifyThreadExistsById = jest.fn(() => Promise.resolve());
     mockCommentRepo.verifyCommentExistsById = jest.fn(() => Promise.resolve());
     mockLikeRepo.verifyLikeExists = jest.fn(() => Promise.resolve(false));
-    mockLikeRepo.addLike = jest.fn(() => Promise.resolve());
+    mockLikeRepo.addLikeToComment = jest.fn(() => Promise.resolve());
 
     const likeCommentUseCase = new LikeCommentUseCase({
       threadRepository: mockThreadRepo,
@@ -37,7 +37,7 @@ describe('LikeCommentUseCase', () => {
         .toHaveBeenCalledWith(commentId);
     expect(mockLikeRepo.verifyLikeExists)
         .toHaveBeenCalledWith(commentId, owner);
-    expect(mockLikeRepo.addLike)
+    expect(mockLikeRepo.addLikeToComment)
         .toHaveBeenCalledWith(commentId, owner);
   });
 

@@ -13,7 +13,7 @@ class LikeCommentUseCase {
 
     return haveLiked ?
         this._likeRepository.removeLikeFromComment(commentId, owner) :
-        this._likeRepository.addLike(commentId, owner);
+        this._likeRepository.addLikeToComment(commentId, owner);
   }
 }
 
