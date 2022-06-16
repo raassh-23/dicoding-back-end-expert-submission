@@ -83,6 +83,7 @@ describe('A Thread entities', () => {
           username: 'test username',
           date: 'test date',
           deleted: false,
+          like_count: 0,
         }),
         new Comment({
           id: 'comments-456',
@@ -90,6 +91,7 @@ describe('A Thread entities', () => {
           username: 'test username',
           date: 'test date',
           deleted: true,
+          like_count: 0,
         }),
       ],
     };

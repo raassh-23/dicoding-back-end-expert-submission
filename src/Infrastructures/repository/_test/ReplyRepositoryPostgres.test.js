@@ -29,19 +29,21 @@ describe('ReplyRepositoryPostgres', () => {
     await pool.end();
   });
 
+  beforeEach(async () => {
+    await UsersTableTestHelper.addUser({id: 'users-123'});
+    await ThreadsTableTestHelper.addThread({
+      id: 'threads-123',
+      owner: 'users-123',
+    });
+    await CommentsTableHelper.addComment({
+      id: 'comments-123',
+      threadId: 'threads-123',
+      owner: 'users-123',
+    });
+  });
+
   describe('addReply', () => {
     it('should persist new reply', async () => {
-      await UsersTableTestHelper.addUser({id: 'users-123'});
-      await ThreadsTableTestHelper.addThread({
-        id: 'threads-123',
-        owner: 'users-123',
-      });
-      await CommentsTableHelper.addComment({
-        id: 'comments-123',
-        threadId: 'threads-123',
-        owner: 'users-123',
-      });
-
       const newReply = new NewReply({
         content: 'test content',
         threadId: 'threads-123',
@@ -60,17 +62,6 @@ describe('ReplyRepositoryPostgres', () => {
     });
 
     it('should return added reply', async () => {
-      await UsersTableTestHelper.addUser({id: 'users-123'});
-      await ThreadsTableTestHelper.addThread({
-        id: 'threads-123',
-        owner: 'users-123',
-      });
-      await CommentsTableHelper.addComment({
-        id: 'comments-123',
-        threadId: 'threads-123',
-        owner: 'users-123',
-      });
-
       const newReply = new NewReply({
         content: 'test content',
         threadId: 'threads-123',
@@ -104,16 +95,6 @@ describe('ReplyRepositoryPostgres', () => {
 
     it('should return replies with its comment id' +
     ' if there are replies', async () => {
-      await UsersTableTestHelper.addUser({id: 'users-123', username: 'user'});
-      await ThreadsTableTestHelper.addThread({
-        id: 'threads-123',
-        owner: 'users-123',
-      });
-      await CommentsTableHelper.addComment({
-        id: 'comments-123',
-        threadId: 'threads-123',
-        owner: 'users-123',
-      });
       await RepliesTableHelper.addReply({
         id: 'replies-1',
         content: 'test content 1',
@@ -136,7 +117,7 @@ describe('ReplyRepositoryPostgres', () => {
       const expectedFirstReply = new Reply({
         id: 'replies-1',
         content: 'test content 1',
-        username: 'user',
+        username: 'dicoding',
         date: '2022-05-18T15:26:50.713Z',
         deleted: false,
         comment_id: 'comments-123',
@@ -145,7 +126,7 @@ describe('ReplyRepositoryPostgres', () => {
       const expectedSecondReply = new Reply({
         id: 'replies-2',
         content: 'test content 2',
-        username: 'user',
+        username: 'dicoding',
         date: '2022-05-18T15:27:50.713Z',
         deleted: false,
         comment_id: 'comments-123',
@@ -169,16 +150,6 @@ describe('ReplyRepositoryPostgres', () => {
     });
 
     it('should delete reply if found', async () => {
-      await UsersTableTestHelper.addUser({id: 'users-123'});
-      await ThreadsTableTestHelper.addThread({
-        id: 'threads-123',
-        owner: 'users-123',
-      });
-      await CommentsTableHelper.addComment({
-        id: 'comments-123',
-        threadId: 'threads-123',
-        owner: 'users-123',
-      });
       await RepliesTableHelper.addReply({
         id: 'replies-123',
         threadId: 'threads-123',
@@ -208,16 +179,6 @@ describe('ReplyRepositoryPostgres', () => {
     });
 
     it('should throw AuthorizationError if not the owner', async () => {
-      await UsersTableTestHelper.addUser({id: 'users-123'});
-      await ThreadsTableTestHelper.addThread({
-        id: 'threads-123',
-        owner: 'users-123',
-      });
-      await CommentsTableHelper.addComment({
-        id: 'comments-123',
-        threadId: 'threads-123',
-        owner: 'users-123',
-      });
       await RepliesTableHelper.addReply({
         id: 'replies-123',
         threadId: 'threads-123',
@@ -235,16 +196,6 @@ describe('ReplyRepositoryPostgres', () => {
     });
 
     it('should throw NotFoundError if thread not valid', async () => {
-      await UsersTableTestHelper.addUser({id: 'users-123'});
-      await ThreadsTableTestHelper.addThread({
-        id: 'threads-123',
-        owner: 'users-123',
-      });
-      await CommentsTableHelper.addComment({
-        id: 'comments-123',
-        threadId: 'threads-123',
-        owner: 'users-123',
-      });
       await RepliesTableHelper.addReply({
         id: 'replies-123',
         threadId: 'threads-123',
@@ -262,16 +213,6 @@ describe('ReplyRepositoryPostgres', () => {
     });
 
     it('should throw NotFoundError if comment not valid', async () => {
-      await UsersTableTestHelper.addUser({id: 'users-123'});
-      await ThreadsTableTestHelper.addThread({
-        id: 'threads-123',
-        owner: 'users-123',
-      });
-      await CommentsTableHelper.addComment({
-        id: 'comments-123',
-        threadId: 'threads-123',
-        owner: 'users-123',
-      });
       await RepliesTableHelper.addReply({
         id: 'replies-123',
         threadId: 'threads-123',
@@ -290,16 +231,6 @@ describe('ReplyRepositoryPostgres', () => {
 
     it('should not throw any error ' +
         'if is the correct owner, thread, and comment', async () => {
-      await UsersTableTestHelper.addUser({id: 'users-123'});
-      await ThreadsTableTestHelper.addThread({
-        id: 'threads-123',
-        owner: 'users-123',
-      });
-      await CommentsTableHelper.addComment({
-        id: 'comments-123',
-        threadId: 'threads-123',
-        owner: 'users-123',
-      });
       await RepliesTableHelper.addReply({
         id: 'replies-123',
         threadId: 'threads-123',

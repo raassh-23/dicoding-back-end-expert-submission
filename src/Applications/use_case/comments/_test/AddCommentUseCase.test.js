@@ -39,7 +39,6 @@ describe('AddCommentUseCase', () => {
     mockUserRepo.verifyUserExistsById = jest.fn(() => Promise.resolve());
     mockThreadRepo.verifyThreadExistsById = jest.fn(() => Promise.resolve());
 
-
     const addCommentUseCase = new AddCommentUseCase({
       userRepository: mockUserRepo,
       threadRepository: mockThreadRepo,
