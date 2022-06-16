@@ -20,6 +20,7 @@ describe('A Comment entities', () => {
       username: true,
       date: 321,
       deleted: 'false',
+      like_count: '123',
     };
 
     const payload2 = {
@@ -29,6 +30,7 @@ describe('A Comment entities', () => {
       date: 'test',
       deleted: false,
       replies: {},
+      like_count: 1,
     };
 
     const payload3 = {
@@ -38,6 +40,7 @@ describe('A Comment entities', () => {
       date: 'test',
       deleted: false,
       replies: ['test'],
+      like_count: 1,
     };
 
     expect(() => new Comment(payload1))
@@ -56,15 +59,20 @@ describe('A Comment entities', () => {
       username: 'test username',
       date: 'test date',
       deleted: false,
+      like_count: 1,
     };
 
-    const {id, content, username, date, replies} = new Comment(payload);
+    const {
+      id, content, username,
+      date, replies, likeCount,
+    } = new Comment(payload);
 
     expect(id).toBe(payload.id);
     expect(content).toBe(payload.content);
     expect(username).toBe(payload.username);
     expect(date).toBe(payload.date);
     expect(replies).toStrictEqual([]);
+    expect(likeCount).toBe(payload.like_count);
   });
 
   it('should create Comment object correctly when deleted', () => {
@@ -74,14 +82,16 @@ describe('A Comment entities', () => {
       username: 'test username',
       date: 'test date',
       deleted: true,
+      like_count: 1,
     };
 
-    const {id, content, username, date} = new Comment(payload);
+    const {id, content, username, date, likeCount} = new Comment(payload);
 
     expect(id).toBe(payload.id);
     expect(content).toBe('**komentar telah dihapus**');
     expect(username).toBe(payload.username);
     expect(date).toBe(payload.date);
+    expect(likeCount).toBe(payload.like_count);
   });
 
   it('should create Comment object correctly when replies not empty', () => {
@@ -99,14 +109,19 @@ describe('A Comment entities', () => {
           date: 'test date',
         },
       ],
+      like_count: 1,
     };
 
-    const {id, content, username, date, replies} = new Comment(payload);
+    const {
+      id, content, username,
+      date, replies, likeCount,
+    } = new Comment(payload);
 
     expect(id).toBe(payload.id);
     expect(content).toBe(payload.content);
     expect(username).toBe(payload.username);
     expect(date).toBe(payload.date);
     expect(replies).toStrictEqual(payload.replies);
+    expect(likeCount).toBe(payload.like_count);
   });
 });

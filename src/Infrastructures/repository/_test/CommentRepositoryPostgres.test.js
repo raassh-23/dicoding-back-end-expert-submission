@@ -116,6 +116,7 @@ describe('CommentRepositoryPostgres', () => {
         username: 'user',
         date: '2022-05-18T15:26:50.713Z',
         deleted: false,
+        like_count: 0,
       });
 
       const expectedSecondComment = new Comment({
@@ -124,6 +125,7 @@ describe('CommentRepositoryPostgres', () => {
         username: 'user',
         date: '2022-05-18T15:27:50.713Z',
         deleted: false,
+        like_count: 0,
       });
 
       const comments = await commentRepositoryPostgres

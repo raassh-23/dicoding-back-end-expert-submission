@@ -9,11 +9,13 @@ const CommentsTableHelper = {
     owner = 'users-123',
     date = '2022-05-18T15:26:50.713Z',
     deleted = false,
+    likeCount = 0,
   }) {
     const query = {
-      text: `INSERT INTO comments (id, content, thread_id, owner, date, deleted)
-              VALUES ($1, $2, $3, $4, $5, $6)`,
-      values: [id, content, threadId, owner, date, deleted],
+      text: `INSERT INTO comments (id, content, thread_id,
+              owner, date, deleted, like_count)
+              VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+      values: [id, content, threadId, owner, date, deleted, likeCount],
     };
 
     await pool.query(query);
