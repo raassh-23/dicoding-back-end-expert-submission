@@ -28,14 +28,16 @@ describe('CommentRepositoryPostgres', () => {
     await pool.end();
   });
 
+  beforeEach(async () => {
+    await UsersTableTestHelper.addUser({id: 'users-123'});
+    await ThreadsTableTestHelper.addThread({
+      id: 'threads-123',
+      owner: 'users-123',
+    });
+  });
+
   describe('addComment', () => {
     it('should persist new comment', async () => {
-      await UsersTableTestHelper.addUser({id: 'users-123'});
-      await ThreadsTableTestHelper.addThread({
-        id: 'threads-123',
-        owner: 'users-123',
-      });
-
       const newComment = new NewComment({
         content: 'test content',
         threadId: 'threads-123',
@@ -54,12 +56,6 @@ describe('CommentRepositoryPostgres', () => {
     });
 
     it('should return added comment', async () => {
-      await UsersTableTestHelper.addUser({id: 'users-123'});
-      await ThreadsTableTestHelper.addThread({
-        id: 'threads-123',
-        owner: 'users-123',
-      });
-
       const newComment = new NewComment({
         content: 'test content',
         threadId: 'threads-123',
@@ -91,11 +87,6 @@ describe('CommentRepositoryPostgres', () => {
     });
 
     it('should return comments if there are comments', async () => {
-      await UsersTableTestHelper.addUser({id: 'users-123', username: 'user'});
-      await ThreadsTableTestHelper.addThread({
-        id: 'threads-123',
-        owner: 'users-123',
-      });
       await CommentsTableHelper.addComment({
         id: 'comments-1',
         content: 'test content',
@@ -119,7 +110,7 @@ describe('CommentRepositoryPostgres', () => {
       const expectedFirstComment = new Comment({
         id: 'comments-1',
         content: 'test content',
-        username: 'user',
+        username: 'dicoding',
         date: '2022-05-18T15:26:50.713Z',
         deleted: false,
         like_count: 1,
@@ -128,7 +119,7 @@ describe('CommentRepositoryPostgres', () => {
       const expectedSecondComment = new Comment({
         id: 'comments-2',
         content: 'test content',
-        username: 'user',
+        username: 'dicoding',
         date: '2022-05-18T15:27:50.713Z',
         deleted: false,
         like_count: 0,
@@ -152,11 +143,6 @@ describe('CommentRepositoryPostgres', () => {
     });
 
     it('should delete comment if found', async () => {
-      await UsersTableTestHelper.addUser({id: 'users-123'});
-      await ThreadsTableTestHelper.addThread({
-        id: 'threads-123',
-        owner: 'users-123',
-      });
       await CommentsTableHelper.addComment({
         id: 'comments-123',
         threadId: 'threads-123',
@@ -183,11 +169,6 @@ describe('CommentRepositoryPostgres', () => {
     });
 
     it('should throw AuthorizationError if not the owner', async () => {
-      await UsersTableTestHelper.addUser({id: 'users-123'});
-      await ThreadsTableTestHelper.addThread({
-        id: 'threads-123',
-        owner: 'users-123',
-      });
       await CommentsTableHelper.addComment({
         id: 'comments-123',
         threadId: 'threads-123',
@@ -202,11 +183,6 @@ describe('CommentRepositoryPostgres', () => {
     });
 
     it('should throw NotFoundError if not the thread', async () => {
-      await UsersTableTestHelper.addUser({id: 'users-123'});
-      await ThreadsTableTestHelper.addThread({
-        id: 'threads-123',
-        owner: 'users-123',
-      });
       await CommentsTableHelper.addComment({
         id: 'comments-123',
         threadId: 'threads-123',
@@ -222,11 +198,6 @@ describe('CommentRepositoryPostgres', () => {
 
     it('should not throw any error ' +
         'if is the correct owner and thread', async () => {
-      await UsersTableTestHelper.addUser({id: 'users-123'});
-      await ThreadsTableTestHelper.addThread({
-        id: 'threads-123',
-        owner: 'users-123',
-      });
       await CommentsTableHelper.addComment({
         id: 'comments-123',
         threadId: 'threads-123',
@@ -250,11 +221,6 @@ describe('CommentRepositoryPostgres', () => {
     });
 
     it('should not throw NotFoundError when id exists', async () => {
-      await UsersTableTestHelper.addUser({id: 'users-123'});
-      await ThreadsTableTestHelper.addThread({
-        id: 'threads-123',
-        owner: 'users-123',
-      });
       await CommentsTableHelper.addComment({
         id: 'comments-123',
         threadId: 'threads-123',
