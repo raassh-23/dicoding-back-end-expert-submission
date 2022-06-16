@@ -14,9 +14,11 @@ const AddedComment =
 const pool = require('../../database/postgres/pool');
 const CommentRepositoryPostgres = require('../CommentRepositoryPostgres');
 const Comment = require('../../../Domains/comments/entities/Comment');
+const LikesTableTestHelper = require('../../../../tests/LikesTableTestHelper');
 
 describe('CommentRepositoryPostgres', () => {
   afterEach(async () => {
+    await LikesTableTestHelper.cleanTable();
     await CommentsTableHelper.cleanTable();
     await ThreadsTableTestHelper.cleanTable();
     await UsersTableTestHelper.cleanTable();
@@ -108,6 +110,10 @@ describe('CommentRepositoryPostgres', () => {
         owner: 'users-123',
         date: '2022-05-18T15:27:50.713Z',
       });
+      await LikesTableTestHelper.addLike({
+        commentId: 'comments-1',
+        owner: 'users-123',
+      });
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
 
       const expectedFirstComment = new Comment({
@@ -116,6 +122,7 @@ describe('CommentRepositoryPostgres', () => {
         username: 'user',
         date: '2022-05-18T15:26:50.713Z',
         deleted: false,
+        like_count: 1,
       });
 
       const expectedSecondComment = new Comment({
@@ -124,6 +131,7 @@ describe('CommentRepositoryPostgres', () => {
         username: 'user',
         date: '2022-05-18T15:27:50.713Z',
         deleted: false,
+        like_count: 0,
       });
 
       const comments = await commentRepositoryPostgres

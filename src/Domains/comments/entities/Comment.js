@@ -8,20 +8,24 @@ class Comment {
     this.username = payload.username;
     this.date = payload.date;
     this.replies = payload.replies || [];
-    this.likeCount = payload.like_count;
+    this.likeCount = Number(payload.like_count);
   }
 
   _verifyPayload(payload) {
-    const {id, content, username, date, deleted, replies} = payload;
+    const {
+      id, content, username, date,
+      deleted, replies, like_count: likeCount,
+    } = payload;
 
     if (id == null || content == null || username == null ||
-        date == null || deleted == null) {
+        date == null || deleted == null || likeCount == null) {
       throw new Error('COMMENT.NOT_CONTAIN_NEEDED_PROPERTY');
     }
 
     if (typeof id !== 'string' || typeof content !== 'string' ||
         typeof username !== 'string' || typeof date !== 'string' ||
-        typeof deleted !== 'boolean') {
+        typeof deleted !== 'boolean' ||
+        (Array.isArray(likeCount) || Number.isNaN(likeCount))) {
       throw new Error('COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
     }
 

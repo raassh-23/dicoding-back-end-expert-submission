@@ -46,6 +46,7 @@ describe('GetThreadUseCase', () => {
               comment_id: 'comments-123',
             }).toJson(),
           ],
+          like_count: 0,
         }),
         new Comment({
           id: 'comments-456',
@@ -71,6 +72,7 @@ describe('GetThreadUseCase', () => {
               comment_id: 'comments-456',
             }).toJson(),
           ],
+          like_count: 0,
         }),
       ],
     });
@@ -95,6 +97,7 @@ describe('GetThreadUseCase', () => {
         username: 'user1',
         date: 'test date1',
         deleted: false,
+        like_count: 0,
       }),
       new Comment({
         id: 'comments-456',
@@ -102,6 +105,7 @@ describe('GetThreadUseCase', () => {
         username: 'user2',
         date: 'test date2',
         deleted: true,
+        like_count: 0,
       }),
     ]));
     mockReplyRepo.getRepliesByCommentsId = jest.fn(() => Promise.resolve([
