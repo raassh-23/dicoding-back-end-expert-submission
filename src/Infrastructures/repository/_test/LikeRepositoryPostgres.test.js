@@ -6,6 +6,8 @@ const CommentsTableHelper =
     require('../../../../tests/CommentsTableTestHelper');
 const LikesTableTestHelper = require('../../../../tests/LikesTableTestHelper');
 const pool = require('../../database/postgres/pool');
+const LikeRepositoryPostgres =
+    require('../LikeRepositoryPostgres');
 
 describe('LikeRepositoryPostgres', () => {
   afterEach(async () => {
@@ -40,7 +42,7 @@ describe('LikeRepositoryPostgres', () => {
       const owner = 'users-123';
 
       const likeRepository =
-          new LikeRepositoryPostgres(pool, {});
+          new LikeRepositoryPostgres(pool);
 
       const haveLiked = await likeRepository
           .verifyLikeExists(commentId, owner);
@@ -58,7 +60,7 @@ describe('LikeRepositoryPostgres', () => {
       });
 
       const likeRepository =
-          new LikeRepositoryPostgres(pool, {});
+          new LikeRepositoryPostgres(pool);
 
       const haveLiked = await likeRepository
           .verifyLikeExists(commentId, owner);
@@ -72,9 +74,8 @@ describe('LikeRepositoryPostgres', () => {
       const commentId = 'comments-123';
       const owner = 'users-123';
 
-      const fakeIdGenerator = () => '123';
       const likeRepository =
-          new LikeRepositoryPostgres(pool, fakeIdGenerator);
+          new LikeRepositoryPostgres(pool);
 
       await likeRepository.addLikeToComment(commentId, owner);
 
@@ -82,8 +83,8 @@ describe('LikeRepositoryPostgres', () => {
           .findLikeByCommentAndOwner(commentId, owner);
 
       expect(likes).toHaveLength(1);
-      expect(likes[0].comment_id).toBe('likes-123');
-      expect(likes[0].owner).toBe('users-123');
+      expect(likes[0].comment_id).toBe(commentId);
+      expect(likes[0].owner).toBe(owner);
     });
   });
 
@@ -98,7 +99,7 @@ describe('LikeRepositoryPostgres', () => {
       });
 
       const likeRepository =
-          new LikeRepositoryPostgres(pool, {});
+          new LikeRepositoryPostgres(pool);
 
       await likeRepository.removeLikeFromComment(commentId, owner);
 
