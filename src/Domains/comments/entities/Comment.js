@@ -8,6 +8,7 @@ class Comment {
     this.username = payload.username;
     this.date = payload.date;
     this.replies = payload.replies || [];
+    this.likeCount = payload.like_count;
   }
 
   _verifyPayload(payload) {
